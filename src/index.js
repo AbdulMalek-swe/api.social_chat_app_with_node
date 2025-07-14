@@ -1,18 +1,31 @@
- const express = require('express');
  const config = require('./config/config');
-const { errorHandler, errorConverter } = require('./middleware/error');
+const app = require("./app");
+const logger = require('./config/logger');
+let server;
+ server = app.listen(config.port, () => {
+    logger.info(`Listening to port ${config.port}`);
+  });
+ const exitHandler = () => {
+  if (server) {
+    server.close(() => {
+      logger.info('Server closed');
+      process.exit(1);
+    });
+  } else {
+    process.exit(1);
+  }
+};
+const unexpectedErrorHandler = (error) => {
+  logger.error(error);
+  exitHandler();
+};
 
+process.on('uncaughtException', unexpectedErrorHandler);
+process.on('unhandledRejection', unexpectedErrorHandler);
 
- const app = express();
- app.get('/', (req, res, next) => {
-  // simulate error
-  const error =   new Error('Oops! Something went wrong.');
-  error.statusCode = 500;
-  next(error); // pass to error handler
-});
- app.use(errorConverter)
- app.use(errorHandler)
-const PORT  = 5000
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM received');
+  if (server) {
+    server.close();
+  }
 });
