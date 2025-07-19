@@ -1,7 +1,4 @@
-const User = require("./model");
-
- 
- 
+const User = require("./model"); 
 exports.signupService =async (userData)=>{
     const user = await User.create(userData);
     return user;

@@ -1,13 +1,15 @@
 const { Server } = require("socket.io");
 const http = require("http");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const config = require("./config/config");
 const app = require("./app");
 const logger = require("./config/logger");
-let server; 
-// connect mongoose  
+// remove cors issue
+
+let server;
+// connect mongoose
 mongoose.connect(config.mongoose.url).then(() => {
-  logger.info('Connected to MongoDB');
+  logger.info("Connected to MongoDB");
   server = app.listen(config.port, () => {
     logger.info(`Listening to port ${config.port}`);
   });
@@ -19,7 +21,7 @@ const io = new Server(httpServer, {
     methods: ["GET", "POST"],
   },
 });
-// ✅ Handle Socket Connections temperary set 
+// ✅ Handle Socket Connections temperary set
 io.on("connection", (socket) => {
   logger.info(`⚡ New client connected: ${socket.id}`);
 
@@ -40,7 +42,7 @@ io.on("connection", (socket) => {
     logger.info(`Client disconnected: ${socket.id}`);
   });
 });
-// server running here 
+// server running here
 server = httpServer.listen(config.port, () => {
   logger.info(`Listening to port ${config.port}`);
 });

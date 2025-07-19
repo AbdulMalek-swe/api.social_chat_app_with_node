@@ -1,6 +1,6 @@
 const {  generateAccessToken,generateRefreshToken, generateToken, refreshTokenDecode} = require("../../utils/token");
 const jwt = require("jsonwebtoken");
-const { signupService, findUserByEmail } = require("./service");
+const { signupService, findUserByEmail } = require("./service"); 
    module.exports.signup = async (req, res) => {
     try {
       const {email,password,confirmPassword} = req.body;
@@ -32,8 +32,9 @@ const { signupService, findUserByEmail } = require("./service");
         })
       } 
     } 
-    module.exports.signin= async (req, res) => {
+    module.exports.signin= async (req, res,next) => {
         try {
+          console.log(req.body);
             const { email, password } = req.body;
             if (!email || !password) {
               return res.status(401).json({ 
@@ -71,10 +72,7 @@ const { signupService, findUserByEmail } = require("./service");
               user:others
             });
           } catch (error) {
-            res.status(401).json({
-              status: "fail",
-              error:error.message
-            });
+            next( error)
           } 
     };
     module.exports.refreshToken = async(req,res)=>{

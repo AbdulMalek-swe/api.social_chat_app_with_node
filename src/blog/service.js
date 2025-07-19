@@ -1,10 +1,9 @@
 const Blog = require("./model");
-
-exports.create = async (userData) => {};
+ 
 
 exports.get = async (blogData) => {
   const page = parseInt(blogData?.query?.page) || 1;
-  const limit = parseInt(blogData?.query?.limit) || 10;
+  const limit = parseInt(blogData?.query?.limit) || 100;
   const skip = (page - 1) * limit;
   const total = await Blog.countDocuments();
   // const blogs = await Blog.aggregate([
@@ -13,9 +12,13 @@ exports.get = async (blogData) => {
   //   { $limit: limit },
   // ]);
   const latestBlogs = await Blog.find()
-      .sort({ createdAt: -1 })
-      .limit(1000)
-      .lean(); 
+    .sort({ createdAt: -1 })
+    .limit(1000)
+    .lean();
+  const shuffled = latestBlogs.sort(() => 0.5 - Math.random()); 
+  // Step 3: Paginate from shuffled
+  const paginatedBlogs = shuffled.slice(skip, skip + limit);
+  
   return {
     meta: {
       total,
@@ -23,8 +26,13 @@ exports.get = async (blogData) => {
       limit,
       totalPages: Math.ceil(total / limit),
     },
-    data: latestBlogs,
+    data: paginatedBlogs,
   };
+};
+// create blog 
+exports.create = async (blogData) => {
+  console.log(blogData,"----"); 
+   return Blog.create(blogData);
 };
 
 //  await Blog.findOneAndUpdate(
@@ -37,3 +45,5 @@ exports.get = async (blogData) => {
 //     },
 //     { new: true }
 //   );
+
+  
