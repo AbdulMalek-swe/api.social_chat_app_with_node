@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const config = require("./config/config");
 const app = require("./app");
 const logger = require("./config/logger");
-// remove cors issue
 
 let server;
 // connect mongoose
@@ -46,6 +45,9 @@ io.on("connection", (socket) => {
 server = httpServer.listen(config.port, () => {
   logger.info(`Listening to port ${config.port}`);
 });
+
+
+
 const exitHandler = () => {
   if (server) {
     server.close(() => {
