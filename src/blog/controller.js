@@ -1,5 +1,5 @@
-const ApiError = require("../../utils/ApiError");
-const sendResponse = require("../../utils/helper");
+const ApiError = require("../utils/ApiError");
+const sendResponse = require("../utils/helper");
 const { get, create } = require("./service");
 const httpStatus = require("http-status")?.status;
 // get first 1k blog

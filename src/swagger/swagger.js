@@ -1,6 +1,7 @@
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 
+
 const swaggerOptions = {
     definition: {
         openapi: "3.0.0",
@@ -10,6 +11,15 @@ const swaggerOptions = {
             description: "API documentation for Social Post + Chat Application",
         },
         servers: [{ url: "http://localhost:5000" }],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT"
+                }
+            }
+        }
     },
     // Read routes directly under src/*
     apis: ["./src/*/*.js"],
