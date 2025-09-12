@@ -28,15 +28,14 @@ This application provides **user authentication, social post & comment system, a
 ## 📂 Project Structure
 
 src/
-┣ modules/
-┃ ┣ routes.ts # API routes
-┃ ┣ controllers/ # Handle incoming requests
-┃ ┣ services/ # Business logic
-┃ ┣ models/ # Database schemas/entities
-┣ middlewares/ # Authentication & custom middleware
-┣ utils/ # Helper functions
-┗ index.ts # App entry point
-
+├─ modules/
+│ ├─ routes.ts # API routes
+│ ├─ controllers/ # Handle incoming requests
+│ ├─ services/ # Business logic
+│ ├─ models/ # Database schemas/entities
+├─ middlewares/ # Authentication & custom middleware
+├─ utils/ # Helper functions
+└─ index.ts # App entry point
 
 ---
 
